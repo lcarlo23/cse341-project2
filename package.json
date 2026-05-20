@@ -1,0 +1,40 @@
+{
+  "name": "cse341-project2",
+  "version": "1.0.0",
+  "description": "CSE341 CRUD Project",
+  "homepage": "https://github.com/lcarlo23/cse341-project2#readme",
+  "bugs": {
+    "url": "https://github.com/lcarlo23/cse341-project2/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lcarlo23/cse341-project2.git"
+  },
+  "license": "ISC",
+  "author": "Luca Carlo",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon --env-file=.env server.js",
+    "start": "node server.js",
+    "format": "prettier --write .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "mongodb": "^7.2.0",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.4.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.6.0",
+    "nodemon": "^3.1.14",
+    "prettier": "^3.8.3",
+    "swagger-autogen": "^2.23.7"
+  }
+}
