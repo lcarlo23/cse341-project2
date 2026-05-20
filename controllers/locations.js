@@ -5,6 +5,7 @@ export async function getAllLocations(req, res) {
   try {
     const db = getDb();
     const locations = await db.collection('locations').find().toArray();
+
     res.status(200).json(locations);
   } catch (error) {
     res.status(500).send(error.message);
@@ -16,6 +17,7 @@ export async function getSingleLocation(req, res) {
     if (!ObjectId.isValid(req.params.id)) {
       return res.status(400).json({ message: 'Invalid ID format.' });
     }
+
     const db = getDb();
     const location = await db
       .collection('locations')
@@ -50,6 +52,60 @@ export async function createLocation(req, res) {
       res.status(201).json(response);
     } else {
       res.status(500).json({ message: 'Creation failed.' });
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+}
+
+export async function updateLocation(req, res) {
+  try {
+    if (!ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: 'Invalid ID format.' });
+    }
+
+    const db = getDb();
+    const updatedLocation = {
+      name: req.body.name,
+      address: req.body.address,
+      city: req.body.city,
+      zipCode: req.body.zipCode,
+      maxCapacity: req.body.maxCapacity,
+      managerEmail: req.body.managerEmail,
+      hasProjector: req.body.hasProjector,
+    };
+
+    const response = await db
+      .collection('locations')
+      .replaceOne({ _id: new ObjectId(req.params.id) }, updatedLocation);
+
+    if (response.modifiedCount > 0) {
+      res.status(204).send();
+    } else {
+      res
+        .status(404)
+        .json({ message: 'Location not found or no changes made.' });
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+}
+
+export async function deleteLocation(req, res) {
+  try {
+    if (!ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ message: 'Invalid ID format.' });
+    }
+
+    const db = getDb();
+    const response = await db
+      .collection('locations')
+      .deleteOne({ _id: new ObjectId(req.params.id) });
+
+    if (response.deletedCount > 0) {
+      res.status(204).send();
+    } else {
+      res.status(404).json({ message: 'Location not found.' });
     }
   } catch (error) {
     res.status(500).send(error.message);
