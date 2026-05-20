@@ -19,7 +19,7 @@ export async function getSingleEvent(req, res) {
     const db = getDb();
     const event = await db
       .collection('events')
-      .findOne({ id: new ObjectId(req.params.id) });
+      .findOne({ _id: new ObjectId(req.params.id) });
 
     if (!event) {
       return res.status(404).json({ message: 'Event not found.' });
