@@ -2,361 +2,361 @@
   "swagger": "2.0",
   "info": {
     "title": "Event Planner API",
-    "description": "CSE 341 - Project 2",
+    "description": "A RESTful API built with Express and MongoDB to seamlessly manage tech events, conferences, and venue locations.",
     "version": "1.0.0"
   },
   "host": "",
   "basePath": "/",
-  "schemes": [
-    "http",
-    "https"
-  ],
+  "schemes": ["http", "https"],
   "paths": {
     "/": {
       "get": {
-        "description": "",
+        "description": "Root endpoint providing a simple welcome message to verify the API status.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "API is online and accessible."
           }
         }
       }
     },
     "/events/": {
       "get": {
-        "description": "",
+        "description": "Retrieves an array containing all events currently stored in the database.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "A list of events successfully retrieved."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error. Failed to connect to the database or execute the query."
           }
         }
       },
       "post": {
-        "description": "",
+        "description": "Creates a new event records. Input data is passed through the validation middleware before insertion.",
         "parameters": [
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "any"
-                },
-                "description": {
-                  "example": "any"
-                },
-                "date": {
-                  "example": "any"
-                },
-                "location": {
-                  "example": "any"
-                },
-                "capacity": {
-                  "example": "any"
-                },
-                "ticketPrice": {
-                  "example": "any"
-                },
-                "category": {
-                  "example": "any"
-                },
-                "isVirtual": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Event"
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Event successfully created and stored."
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request. Provided fields failed data validation constraints."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error. Database operation unacknowledged."
           }
         }
       }
     },
     "/events/{id}": {
       "get": {
-        "description": "",
+        "description": "Retrieves the detailed profile of a single event matching the provided MongoDB ObjectId.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Valid 24-character hex string representing the MongoDB ObjectId."
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Requested event found and returned."
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request. Invalid ObjectId structure."
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found. No event matches the provided ID."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error."
           }
         }
       },
       "put": {
-        "description": "",
+        "description": "Completely replaces an existing event's attributes using the specified ID. Data validation applies.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "The unique ID of the event to modify."
           },
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "any"
-                },
-                "description": {
-                  "example": "any"
-                },
-                "date": {
-                  "example": "any"
-                },
-                "location": {
-                  "example": "any"
-                },
-                "capacity": {
-                  "example": "any"
-                },
-                "ticketPrice": {
-                  "example": "any"
-                },
-                "category": {
-                  "example": "any"
-                },
-                "isVirtual": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Event"
             }
           }
         ],
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "Event updated successfully. No content returned."
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request. Invalid ID format or malformed request body."
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found. Target event does not exist or no modifications were performed."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error."
           }
         }
       },
       "delete": {
-        "description": "",
+        "description": "Permanently removes an event from the collection based on its ID.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "The unique ID of the event to delete."
           }
         ],
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "Event deleted successfully. No content returned."
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request. Invalid ObjectId format."
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found. Event record not found in the database."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error."
           }
         }
       }
     },
     "/locations/": {
       "get": {
-        "description": "",
+        "description": "Retrieves an array containing all location/venue records from the database.",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "A list of locations successfully retrieved."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error."
           }
         }
       },
       "post": {
-        "description": "",
+        "description": "Registers a new physical or logistical location. Subject to data validation checks.",
         "parameters": [
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "any"
-                },
-                "address": {
-                  "example": "any"
-                },
-                "city": {
-                  "example": "any"
-                },
-                "zipCode": {
-                  "example": "any"
-                },
-                "maxCapacity": {
-                  "example": "any"
-                },
-                "managerEmail": {
-                  "example": "any"
-                },
-                "hasProjector": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Location"
             }
           }
         ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Location successfully created."
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request. Required fields missing or formatted incorrectly."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error."
           }
         }
       }
     },
     "/locations/{id}": {
       "get": {
-        "description": "",
+        "description": "Retrieves specific venue details using its corresponding MongoDB ObjectId.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "Valid 24-character hex string representing the venue ID."
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Requested location details successfully found."
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request. Invalid ObjectId format."
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found. No venue matched the provided ID."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error."
           }
         }
       },
       "put": {
-        "description": "",
+        "description": "Updates the properties of an existing location via its ID, ensuring validation parameters are passed.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "The unique ID of the location to update."
           },
           {
             "name": "body",
             "in": "body",
+            "required": true,
             "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "any"
-                },
-                "address": {
-                  "example": "any"
-                },
-                "city": {
-                  "example": "any"
-                },
-                "zipCode": {
-                  "example": "any"
-                },
-                "maxCapacity": {
-                  "example": "any"
-                },
-                "managerEmail": {
-                  "example": "any"
-                },
-                "hasProjector": {
-                  "example": "any"
-                }
-              }
+              "$ref": "#/definitions/Location"
             }
           }
         ],
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "Location properties updated successfully. No content returned."
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request. Malformed body schema or incorrect ID structure."
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found. Location record could not be found."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error."
           }
         }
       },
       "delete": {
-        "description": "",
+        "description": "Removes a venue/location record from the database by its ID.",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "The unique ID of the location to delete."
           }
         ],
         "responses": {
           "204": {
-            "description": "No Content"
+            "description": "Location successfully removed from the system."
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request. Invalid ObjectId structure."
           },
           "404": {
-            "description": "Not Found"
+            "description": "Not Found. Location could not be mapped to an existing record."
           },
           "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error."
           }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Event": {
+      "type": "object",
+      "required": [
+        "name",
+        "description",
+        "date",
+        "location",
+        "capacity",
+        "ticketPrice",
+        "category",
+        "isVirtual"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Global Tech Innovators Summit 2026"
+        },
+        "description": {
+          "type": "string",
+          "example": "An annual gathering of tech enthusiasts, developers, and entrepreneurs focusing on AI trends and cloud architectures."
+        },
+        "date": {
+          "type": "string",
+          "example": "2026-09-15"
+        },
+        "location": {
+          "type": "string",
+          "example": "Silicon Valley Innovation Hub"
+        },
+        "capacity": {
+          "type": "integer",
+          "example": 350
+        },
+        "ticketPrice": {
+          "type": "number",
+          "example": 79.99
+        },
+        "category": {
+          "type": "string",
+          "example": "Technology"
+        },
+        "isVirtual": {
+          "type": "boolean",
+          "example": false
+        }
+      }
+    },
+    "Location": {
+      "type": "object",
+      "required": [
+        "name",
+        "address",
+        "city",
+        "zipCode",
+        "maxCapacity",
+        "managerEmail",
+        "hasProjector"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Silicon Valley Innovation Hub"
+        },
+        "address": {
+          "type": "string",
+          "example": "456 Innovation Way, Suite 100"
+        },
+        "city": {
+          "type": "string",
+          "example": "San Jose"
+        },
+        "zipCode": {
+          "type": "string",
+          "example": "95110"
+        },
+        "maxCapacity": {
+          "type": "integer",
+          "example": 500
+        },
+        "managerEmail": {
+          "type": "string",
+          "example": "hub.manager@innovationhub.com"
+        },
+        "hasProjector": {
+          "type": "boolean",
+          "example": true
         }
       }
     }
