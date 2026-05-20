@@ -4,11 +4,15 @@ import {
   getSingleEvent,
   createEvent,
 } from '../controllers/events.js';
+import {
+  eventValidationRules,
+  checkValidation,
+} from '../middleware/validate.js';
 
 const router = express.Router();
 
 router.get('/', getAllEvents);
 router.get('/:id', getSingleEvent);
-router.post('/', createEvent);
+router.post('/', eventValidationRules(), checkValidation, createEvent);
 
 export default router;
