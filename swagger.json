@@ -9,16 +9,6 @@
   "basePath": "/",
   "schemes": ["http", "https"],
   "paths": {
-    "/": {
-      "get": {
-        "description": "Root endpoint providing a simple welcome message to verify the API status.",
-        "responses": {
-          "200": {
-            "description": "API is online and accessible."
-          }
-        }
-      }
-    },
     "/events/": {
       "get": {
         "description": "Retrieves an array containing all events currently stored in the database.",
