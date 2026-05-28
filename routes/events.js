@@ -10,13 +10,26 @@ import {
   eventValidationRules,
   checkValidation,
 } from '../middleware/validate.js';
+import { isAuthenticated } from '../middleware/authenticate.js';
 
 const router = express.Router();
 
 router.get('/', getAllEvents);
 router.get('/:id', getSingleEvent);
-router.post('/', eventValidationRules(), checkValidation, createEvent);
-router.put('/:id', eventValidationRules(), checkValidation, updateEvent);
-router.delete('/:id', deleteEvent);
+router.post(
+  '/',
+  isAuthenticated,
+  eventValidationRules(),
+  checkValidation,
+  createEvent,
+);
+router.put(
+  '/:id',
+  isAuthenticated,
+  eventValidationRules(),
+  checkValidation,
+  updateEvent,
+);
+router.delete('/:id', isAuthenticated, deleteEvent);
 
 export default router;

@@ -10,13 +10,26 @@ import {
   locationValidationRules,
   checkValidation,
 } from '../middleware/validate.js';
+import { isAuthenticated } from '../middleware/authenticate.js';
 
 const router = express.Router();
 
 router.get('/', getAllLocations);
 router.get('/:id', getSingleLocation);
-router.post('/', locationValidationRules(), checkValidation, createLocation);
-router.put('/:id', locationValidationRules(), checkValidation, updateLocation);
-router.delete('/:id', deleteLocation);
+router.post(
+  '/',
+  isAuthenticated,
+  locationValidationRules(),
+  checkValidation,
+  createLocation,
+);
+router.put(
+  '/:id',
+  isAuthenticated,
+  locationValidationRules(),
+  checkValidation,
+  updateLocation,
+);
+router.delete('/:id', isAuthenticated, deleteLocation);
 
 export default router;
